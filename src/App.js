@@ -1,10 +1,12 @@
 import "./App.css";
-import ListDogs from "./components/listDogs";
+import Form from "./components/formPublicacion";
+import Publicaciones from "./components/publicaciones";
 
 function App() {
   return (
     <div className="App">
-      <ListDogs />
+      <Publicaciones />
+      <Form />
     </div>
   );
 }
