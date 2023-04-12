@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { postPublicacion } from "../services/posts";
+import { useEffect, useState } from "react";
+import { fabricas, login, postPublicacion } from "../services/posts";
 
 const Form = () => {
   const [formulario, setFormulario] = useState({
@@ -8,7 +8,7 @@ const Form = () => {
     contenido: "inserta aqui tu contenido",
   });
   const [loadingPost, setLoadingPost] = useState(false);
-
+  const [token, setToken] = useState(null);
   const handleChangeForm = (event) => {
     let clave = event.target.name;
     let valor = event.target.value;
@@ -33,7 +33,25 @@ const Form = () => {
       setLoadingPost(false);
     }
   };
-
+  const getToken = async () => {
+    let token = await login();
+    setToken(token);
+  };
+  const getFabricas = async (token) => {
+    let fabricasAll = await fabricas(token);
+    console.log("fabricas", fabricasAll);
+  };
+  useEffect(() => {
+    if (!token) {
+      getToken();
+    }
+  }, []);
+  useEffect(() => {
+    if (token) {
+      console.log("token", token);
+      getFabricas(token.token);
+    }
+  }, [token]);
   return (
     <div style={{ marginTop: "4vh", marginBottom: "4vh" }}>
       <input
